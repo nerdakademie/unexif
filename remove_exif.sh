@@ -4,7 +4,6 @@ IFS=$(echo -en "\n\b")
 
 unexif(){
 	tempfile=$1"/*"
-	echo "$tempfile"
 	for f in $tempfile
 	do
 		if [ -d "$f" ] ; then
