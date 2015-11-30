@@ -16,6 +16,8 @@ unexif(){
 			if [ "${type%%,*}" == "PDF document" ]; then
 				qpdf --linearize "$tempdata" "$f"
   				echo "$f is a PDF file. Deleting orphan stuff to prevend reversing changes"
+			;else
+				mv "$tempdata" "$f"
 			fi
   			echo "Processing $f"
   			rm "$tempdata"
@@ -34,24 +36,8 @@ date +%Y%m%d -s "19700102" >/dev/null 2>&1
 
 
 FILES=unexif/*
-for f in $FILES
-do
-	if [ -d "$f" ] ; then
-		unexif "$f"
-	else
-		tempdata=$f".tmp"
-		mv "$f" "$tempdata"
-		exiftool -AllDates="" -all="" -overwrite_original_in_place "$tempdata"
-		type="$(file -b $tempdata)"
-		if [ "${type%%,*}" == "PDF document" ]; then
-			qpdf --linearize "$tempdata" "$f"
-  			echo "$f is a PDF file. Deleting orphan stuff to prevend reversing changes"
-		fi
-  		echo "Processing $f"
-  		rm "$tempdata"
-  	fi
-done
 
+unefix $FILES
 
 systemctl start systemd-timesyncd
 IFS=$SAVEIFS
