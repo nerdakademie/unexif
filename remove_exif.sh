@@ -9,18 +9,18 @@ unexif(){
 		if [ -d "$f" ] ; then
 			unexif "$f"
 		else
-			tempdata=$f".tmp"
-			mv "$f" "$tempdata"
-			exiftool -AllDates="" -all="" -overwrite_original_in_place "$tempdata"
-			type="$(file -b $tempdata)"
+			echo "Processing $f"
+			type="$(file -b $f)"
 			if [ "${type%%,*}" == "PDF document" ]; then
+				tempdata=$f".tmp"
+				mv "$f" "$tempdata"
+				exiftool -AllDates="" -all="" -overwrite_original_in_place "$tempdata"
 				qpdf --linearize "$tempdata" "$f"
   				echo "$f is a PDF file. Deleting orphan stuff to prevend reversing changes"
-			;else
-				mv "$tempdata" "$f"
+  				rm "$tempdata"
+			else
+				exiftool -AllDates="" -all="" -overwrite_original_in_place "$f"
 			fi
-  			echo "Processing $f"
-  			rm "$tempdata"
   		fi
 	done
 }
