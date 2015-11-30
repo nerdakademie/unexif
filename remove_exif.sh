@@ -35,8 +35,7 @@ systemctl stop systemd-timesyncd
 date +%Y%m%d -s "19700102" >/dev/null 2>&1
 
 
-FILES=unexif/*
-
+FILES=unexif
 unexif $FILES
 
 systemctl start systemd-timesyncd
