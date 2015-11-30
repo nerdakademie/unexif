@@ -37,7 +37,7 @@ date +%Y%m%d -s "19700102" >/dev/null 2>&1
 
 FILES=unexif/*
 
-unefix $FILES
+unexif $FILES
 
 systemctl start systemd-timesyncd
 IFS=$SAVEIFS
